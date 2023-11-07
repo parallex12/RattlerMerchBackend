@@ -7,8 +7,8 @@ import { updateDocById } from "./index.js";
 import firebase from "../services/Firebase.js";
 import { sendPasswordResetEmail } from "firebase/auth";
 const client = new twilio.Twilio(
-  "SK60e3cfb1d7995c0061c32c6cbbca640c",
-  "Y1fjWoxUzLp0IPV87mcZSYaX5t6tRNIM",
+  "SK301329c3a75aaa531689a7bcd3c64fb8",
+  "MJae2KLb04WJTljBoCPZPh7mjnUrwARb",
   { accountSid: accountSid }
 );
 
@@ -20,11 +20,10 @@ export const sendOtp = async (req, res) => {
     const queryData = await Query?.query_Get_by_id(path[1], id);
     if (queryData.exists()) {
       client.verify.v2
-        .services("VAa65bf85ba299a589922c19f12c979913")
+        .services("VA4b22b8133954b9ae749a87209e83b696")
         .verifications.create({ to: phone, channel: "sms" })
         .then((verification) => {
           res.send({ verification });
-          res.end();
         })
         .catch((e) => {
           console.log(e);
@@ -32,11 +31,9 @@ export const sendOtp = async (req, res) => {
         });
     } else {
       res.send({ msg: "No user Found", code: "404" });
-      res.end(404);
     }
   } catch (e) {
     console.log("Firebase", e.message);
-    res.sendStatus(500);
     res.end();
   }
 };
@@ -52,7 +49,7 @@ export const verifyOtp = async (req, res) => {
     if (queryData.exists()) {
       console.log(body);
       client.verify.v2
-        .services("VAa65bf85ba299a589922c19f12c979913")
+        .services("VA4b22b8133954b9ae749a87209e83b696")
         ?.verificationChecks?.create({
           to: body?.phoneNumber,
           code: body?.code,
@@ -80,25 +77,13 @@ export const verifyWithoutAuthOtp = async (req, res) => {
     }
 
     client.verify.v2
-      .services("VAa65bf85ba299a589922c19f12c979913")
+      .services("VA4b22b8133954b9ae749a87209e83b696")
       ?.verificationChecks?.create({
         to: body?.phoneNumber,
         code: body?.code,
       })
       .then(async (verification) => {
-        let userData = await Query.query_Get_by_phone(verification?.to);
-        let auth = firebase?.auth;
-        sendPasswordResetEmail(auth, userData[0]?.email)
-          .then(() => {
-            res.send(verification);
-            res.end();
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            res.send(errorMessage);
-            res.end(500);
-          });
+        res.send(verification);
       })
       .catch((e) => {
         console.log("Twilio", e.message);
@@ -118,7 +103,7 @@ export const verifyPhoneAndSendOtp = async (req, res) => {
     let userData = await Query.query_Get_by_phone(phone);
     if (userData?.length > 0) {
       client.verify.v2
-        .services("VAa65bf85ba299a589922c19f12c979913")
+        .services("VA4b22b8133954b9ae749a87209e83b696")
         .verifications.create({ to: phone, channel: "sms" })
         .then((verification) => {
           res.send({ verification });
