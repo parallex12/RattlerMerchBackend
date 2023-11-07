@@ -1,17 +1,16 @@
 import { _tokenDetails } from "../services/index.js";
 import { Query } from "../models/index.js";
 import twilio from "twilio";
-import {
-  accountSid,
-  accountSidT,
-  authToken,
-  authTokenT,
-} from "../env/index.js";
+import { accountSid } from "../env/index.js";
 import { verify } from "crypto";
 import { updateDocById } from "./index.js";
 import firebase from "../services/Firebase.js";
 import { sendPasswordResetEmail } from "firebase/auth";
-const client = new twilio.Twilio(accountSid, authToken);
+const client = new twilio.Twilio(
+  "SK60e3cfb1d7995c0061c32c6cbbca640c",
+  "Y1fjWoxUzLp0IPV87mcZSYaX5t6tRNIM",
+  { accountSid: accountSid }
+);
 
 export const sendOtp = async (req, res) => {
   try {
@@ -79,6 +78,7 @@ export const verifyWithoutAuthOtp = async (req, res) => {
     if (!body?.code) {
       res.end(500);
     }
+
     client.verify.v2
       .services("VAa65bf85ba299a589922c19f12c979913")
       ?.verificationChecks?.create({
@@ -99,7 +99,6 @@ export const verifyWithoutAuthOtp = async (req, res) => {
             res.send(errorMessage);
             res.end(500);
           });
-       
       })
       .catch((e) => {
         console.log("Twilio", e.message);
@@ -115,16 +114,14 @@ export const verifyPhoneAndSendOtp = async (req, res) => {
   try {
     let body = req.body;
     let phone = body?.phoneNumber;
+
     let userData = await Query.query_Get_by_phone(phone);
-    console.log(phone);
-    console.log(userData);
     if (userData?.length > 0) {
       client.verify.v2
         .services("VAa65bf85ba299a589922c19f12c979913")
         .verifications.create({ to: phone, channel: "sms" })
         .then((verification) => {
           res.send({ verification });
-          res.end();
         })
         .catch((e) => {
           console.log("Twilio Api", e);
@@ -132,7 +129,6 @@ export const verifyPhoneAndSendOtp = async (req, res) => {
         });
     } else {
       res.send({ msg: "No user Found", code: "404" });
-      res.end(404);
     }
   } catch (e) {
     console.log("verifyPhoneAndSendOtp", e.message);
