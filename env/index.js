@@ -14,8 +14,8 @@ export const firebaseConfig = {
 export const redirect_uri_pro="exp://u.expo.dev/update/f2b40542-8870-4c52-8369-b4e89740b91d/"
 export const redirect_uri_dev="exp://192.168.100.81:19000"
 
-export const accountSid ="AC02c17980c564ddf33cf9a6b2454fd134"
-export const authToken ="c017fbd51ee073eddac5e209c53a06fd"
+export const accountSid ="AC99b69030899767662e9550d69430a52e"
+export const authToken ="db29900c081f5b02c5660eaf9865f581"
 
 export const accountSidT ="AC02c17980c564ddfd33cf9a6b2454fd134"
 export const authTokenT ="c017fbd51ee073eddac5e209c53a06fd"

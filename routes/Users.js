@@ -10,4 +10,5 @@ router.get("/", ensureToken, getDocById);
 //update user by id
 router.post("/", ensureToken, updateDocById);
 
+
 export default router;
