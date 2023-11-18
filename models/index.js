@@ -25,6 +25,10 @@ export const Query = {
     const querySnapshot = await getDocs(query(collection(db, path), where("created_by_id", "==", id)));
     return SortTableData(querySnapshot)
   },
+  query_Get_all: async (path) => {
+    const querySnapshot = await getDocs(collection(db,path));
+    return SortTableData(querySnapshot)
+  },
   query_Get_by_category: async (path,category) => {
     const querySnapshot = await getDocs(query(collection(db, path), where("category", "==", category)));
     return SortTableData(querySnapshot)

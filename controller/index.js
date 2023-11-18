@@ -38,6 +38,21 @@ export const getAllDocs = async (req, res) => {
   }
 };
 
+
+export const getAllTable = async (req, res) => {
+  try {
+    let path = req.originalUrl?.replace("/", "").split("/");
+    let id = _tokenDetails(req.token)?.user_id;
+    const queryData = await Query?.query_Get_all(path[1], id);
+    res.send(queryData)
+    res.end();
+  } catch (e) {
+    console.log("Firebase", e.message);
+    res.sendStatus(500);
+    res.end();
+  }
+};
+
 export const getAllDocsByCategory = async (req, res) => {
   try {
     let path = req.originalUrl?.replace("/", "").split("/");
