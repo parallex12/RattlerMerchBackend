@@ -17,20 +17,19 @@ router.get("/", ensureToken, getDocById);
 router.get("/all", ensureToken, getAllDocs);
 
 //get complete table
-router.get("/every", ensureToken, getAllTable);
+router.get("/every",  getAllTable);
 
 //get all docs by category
 router.get("/category/:category", ensureToken, getAllDocsByCategory);
 
 //get data by id
-router.get("/:id", ensureToken, getDocWithCustomId);
+router.get("/:id", getDocWithCustomId);
 
 //update data
 router.put("/", ensureToken, updateDocById);
 
 //update by custom id
 router.put("/:id", ensureToken, updateDocByCustomId);
-
 
 //add review to product
 router.put("/review/:id", ensureToken, addReviewToProduct);

@@ -42,8 +42,8 @@ export const getAllDocs = async (req, res) => {
 export const getAllTable = async (req, res) => {
   try {
     let path = req.originalUrl?.replace("/", "").split("/");
-    let id = _tokenDetails(req.token)?.user_id;
-    const queryData = await Query?.query_Get_all(path[1], id);
+    console.log(path)
+    const queryData = await Query?.query_Get_all(path[1]);
     res.send(queryData)
     res.end();
   } catch (e) {
@@ -73,8 +73,8 @@ export const getDocWithCustomId = async (req, res) => {
     let id = req.params.id;
     const queryData = await Query?.query_Get_by_id(path[1], id);
     if (queryData.exists()) {
-      let d=queryData?.data()
-      d["id"]=id
+      let d = queryData?.data()
+      d["id"] = id
       res.send(d);
     } else {
       res.send({ msg: "No data Found", code: "404" });
@@ -153,11 +153,11 @@ export const createDocByNewId = async (req, res) => {
     } else {
       data["created_by_id"] = sellerId
       const createdData = await Query.query_create(path[1], id, data)
-      const queryData = await Query?.query_Get_by_id(path[1], id);
+      const queryData2 = await Query?.query_Get_by_sellerId(path[1], sellerId);
       res.send({
         msg: "Data Created.",
         code: 200,
-        created_data: queryData?.data(),
+        created_data: queryData2,
       });
     }
     res.end();
@@ -251,10 +251,12 @@ export const updateDocByCustomId = async (req, res) => {
 
     const queryData = await Query?.query_update_by_id(path[1], id, data);
     const queryGetData = await Query?.query_Get_by_id(path[1], id);
+    const queryGetAllData = await Query?.query_Get_all(path[1]);
     res.send({
       msg: "data updated.",
       code: 200,
       updated_data: queryGetData?.data(),
+      all_data: queryGetAllData
     });
     res.end();
   } catch (e) {
