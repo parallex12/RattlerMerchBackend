@@ -28,7 +28,22 @@ export const getAllDocs = async (req, res) => {
   try {
     let path = req.originalUrl?.replace("/", "").split("/");
     let id = _tokenDetails(req.token)?.user_id;
-    const queryData = await Query?.query_Get_by_sellerId(path[1], id);
+    const queryData = await Query?.query_Get_by_created_Id(path[1], id);
+    res.send(queryData)
+    res.end();
+  } catch (e) {
+    console.log("Firebase", e.message);
+    res.sendStatus(500);
+    res.end();
+  }
+};
+
+
+export const getAllBysellerId = async (req, res) => {
+  try {
+    let path = req.originalUrl?.replace("/", "").split("/");
+    let id = _tokenDetails(req.token)?.user_id;
+    const queryData = await Query?.query_Get_by_seller_Id(path[1], id);
     res.send(queryData)
     res.end();
   } catch (e) {
@@ -153,7 +168,7 @@ export const createDocByNewId = async (req, res) => {
     } else {
       data["created_by_id"] = sellerId
       const createdData = await Query.query_create(path[1], id, data)
-      const queryData2 = await Query?.query_Get_by_sellerId(path[1], sellerId);
+      const queryData2 = await Query?.query_Get_by_created_Id(path[1], sellerId);
       res.send({
         msg: "Data Created.",
         code: 200,
