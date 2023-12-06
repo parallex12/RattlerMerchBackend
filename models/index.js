@@ -21,19 +21,23 @@ export const Query = {
     const querySnapshot = await getDocs(query(collection(db, "users"), where("phoneNumber", "==", phone)));
     return SortTableData(querySnapshot)
   },
-  query_Get_by_created_Id: async (path,id) => {
+  query_Get_by_created_Id: async (path, id) => {
     const querySnapshot = await getDocs(query(collection(db, path), where("created_by_id", "==", id)));
     return SortTableData(querySnapshot)
   },
-  query_Get_by_seller_Id: async (path,id) => {
+  query_Get_by_user_Id: async (path, id) => {
+    const querySnapshot = await getDocs(query(collection(db, path), where("user", "==", id)));
+    return SortTableData(querySnapshot)
+  },
+  query_Get_by_seller_Id: async (path, id) => {
     const querySnapshot = await getDocs(query(collection(db, path), where("seller_id", "==", id)));
     return SortTableData(querySnapshot)
   },
   query_Get_all: async (path) => {
-    const querySnapshot = await getDocs(collection(db,path));
+    const querySnapshot = await getDocs(collection(db, path));
     return SortTableData(querySnapshot)
   },
-  query_Get_by_category: async (path,category) => {
+  query_Get_by_category: async (path, category) => {
     const querySnapshot = await getDocs(query(collection(db, path), where("category", "==", category)));
     return SortTableData(querySnapshot)
   },

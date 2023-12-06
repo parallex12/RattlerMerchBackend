@@ -11,7 +11,8 @@ export const getDocById = async (req, res) => {
     let id = _tokenDetails(req.token)?.user_id;
     const queryData = await Query?.query_Get_by_id(path[1], id);
     if (queryData.exists()) {
-      res.send(queryData?.data());
+      let _tempData = { ...queryData?.data(), id: id }
+      res.send(_tempData);
     } else {
       console.log(id)
       res.send({ msg: "No data Found", code: "404" });
@@ -44,6 +45,20 @@ export const getAllBysellerId = async (req, res) => {
     let path = req.originalUrl?.replace("/", "").split("/");
     let id = _tokenDetails(req.token)?.user_id;
     const queryData = await Query?.query_Get_by_seller_Id(path[1], id);
+    res.send(queryData)
+    res.end();
+  } catch (e) {
+    console.log("Firebase", e.message);
+    res.sendStatus(500);
+    res.end();
+  }
+};
+
+export const getAllWhereUserById = async (req, res) => {
+  try {
+    let path = req.originalUrl?.replace("/", "").split("/");
+    let id = _tokenDetails(req.token)?.user_id;
+    const queryData = await Query?.query_Get_by_user_Id(path[1], id);
     res.send(queryData)
     res.end();
   } catch (e) {

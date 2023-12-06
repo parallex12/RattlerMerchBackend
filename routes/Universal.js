@@ -1,5 +1,5 @@
 import express from "express";
-import { addReviewToProduct, createDoc, createDocByNewId, deleteData, deleteDataByCustomId, getAllBysellerId, getAllDocs, getAllDocsByCategory, getAllTable, getDocById, getDocWithCustomId, updateDocByCustomId, updateDocById } from "../controller/index.js";
+import { addReviewToProduct, createDoc, createDocByNewId, deleteData, deleteDataByCustomId, getAllBysellerId, getAllDocs, getAllDocsByCategory, getAllTable, getAllWhereUserById, getDocById, getDocWithCustomId, updateDocByCustomId, updateDocById } from "../controller/index.js";
 import { ensureToken } from "../services/Secure.js";
 
 const router = express.Router();
@@ -18,6 +18,7 @@ router.get("/all", ensureToken, getAllDocs);
 
 //get all docs
 router.get("/sellerId", ensureToken, getAllBysellerId);
+router.get("/userId", ensureToken, getAllWhereUserById);
 
 
 //get complete table
