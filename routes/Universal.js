@@ -25,7 +25,7 @@ router.get("/userId", ensureToken, getAllWhereUserById);
 router.get("/every",  getAllTable);
 
 //get all docs by category
-router.get("/category/:category", ensureToken, getAllDocsByCategory);
+router.get("/category/:category",  getAllDocsByCategory);
 
 //get data by id
 router.get("/:id", getDocWithCustomId);

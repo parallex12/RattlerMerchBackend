@@ -7,6 +7,7 @@ import {
   query,
   where,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 import firebase from "../services/Firebase.js";
 import { SortTableData } from "../services/index.js";
@@ -42,7 +43,7 @@ export const Query = {
     return SortTableData(querySnapshot)
   },
   query_update_by_id: async (path, id, data) =>
-    await setDoc(doc(db, path, id), data, { merge: true }),
+    await updateDoc(doc(db, path, id), data),
   query_create: async (path, id, data) =>
     await setDoc(doc(db, path, id), data),
   query_delete: async (path, id) => await deleteDoc(doc(db, path, id)),
