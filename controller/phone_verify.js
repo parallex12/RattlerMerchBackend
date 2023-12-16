@@ -7,10 +7,12 @@ import { updateDocById } from "./index.js";
 import firebase from "../services/Firebase.js";
 import { sendPasswordResetEmail } from "firebase/auth";
 const client = new twilio.Twilio(
-  "SK301329c3a75aaa531689a7bcd3c64fb8",
-  "MJae2KLb04WJTljBoCPZPh7mjnUrwARb",
+  "ACbaa1507974ac80b7746c5e24ab534355",
+  "98614799a6dca683a46f98e78763f9ff",
   { accountSid: accountSid }
 );
+
+let serviceId="VA2f7979f459fcd306ff9df2454b438120"
 
 export const sendOtp = async (req, res) => {
   try {
@@ -20,7 +22,7 @@ export const sendOtp = async (req, res) => {
     const queryData = await Query?.query_Get_by_id(path[1], id);
     if (queryData.exists()) {
       client.verify.v2
-        .services("VA4b22b8133954b9ae749a87209e83b696")
+        .services(serviceId)
         .verifications.create({ to: phone, channel: "sms" })
         .then((verification) => {
           res.send({ verification });
@@ -49,7 +51,7 @@ export const verifyOtp = async (req, res) => {
     if (queryData.exists()) {
       console.log(body);
       client.verify.v2
-        .services("VA4b22b8133954b9ae749a87209e83b696")
+        .services(serviceId)
         ?.verificationChecks?.create({
           to: body?.phoneNumber,
           code: body?.code,
@@ -77,7 +79,7 @@ export const verifyWithoutAuthOtp = async (req, res) => {
     }
 
     client.verify.v2
-      .services("VA4b22b8133954b9ae749a87209e83b696")
+      .services(serviceId)
       ?.verificationChecks?.create({
         to: body?.phoneNumber,
         code: body?.code,
@@ -103,7 +105,7 @@ export const verifyPhoneAndSendOtp = async (req, res) => {
     let userData = await Query.query_Get_by_phone(phone);
     if (userData?.length > 0) {
       client.verify.v2
-        .services("VA4b22b8133954b9ae749a87209e83b696")
+        .services(serviceId)
         .verifications.create({ to: phone, channel: "sms" })
         .then((verification) => {
           res.send({ verification });
